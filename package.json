@@ -1,6 +1,6 @@
 {
 	"name": "ttlit-builder",
-	"version": "0.0.0",
+	"version": "0.0.1",
 	"description": "Build Tagged Template Literals from String",
 	"browser": "dist/builder.js",
 	"main": "lib/index.js",
