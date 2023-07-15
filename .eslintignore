@@ -1,0 +1,8 @@
+# Hidden Files
+_
+
+# Ignore node_files
+node_modules/
+
+# Ignore build output
+dist/
