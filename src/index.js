@@ -86,7 +86,7 @@ function parseTemplateLiteral(s) {
 				break;
 		}
 	}
-	info.strings.push(s.substr(pos, s.length - 1));
+	info.strings.push(s.substr(pos, s.length /* - 1 <== seems to be wrong! */));
 	info.strings.raw = [...info.strings];
 	return info;
 }
