@@ -126,6 +126,18 @@ const OPERARATORS = {
 	"||": function (l, r) {
 		return l || r;
 	},
+	"==": function (l, r) {
+		return l == r;
+	},
+	"===": function (l, r) {
+		return l === r;
+	},
+	"!=": function (l, r) {
+		return l != r;
+	},
+	"!==": function (l, r) {
+		return l !== r;
+	},
 	"!": function (a) {
 		return !a;
 	}
@@ -164,6 +176,13 @@ function executeAST(ast, ctx, ctxGlobal) {
 		retval = ctx[ast.name];
 	} else if (ast.type === jsep.LITERAL) {
 		retval = ast.value;
+	} else if (ast.type === "ConditionalExpression") {
+		const test = executeAST(ast.test, ctx, ctxGlobal);
+		if (test) {
+			retval = executeAST(ast.consequent, ctx, ctxGlobal);
+		} else {
+			retval = executeAST(ast.alternate, ctx, ctxGlobal);
+		}
 	} else if (ast.type === "TemplateLiteral") {
 		const strings = ast.quasis.map((q) => executeAST(q, ctx, ctxGlobal));
 		const values = ast.expressions.map((exp) => executeAST(exp, ctx, ctxGlobal));

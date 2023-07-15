@@ -20,7 +20,7 @@
 		"prepare": "node ./.husky/skip.js || husky install",
 		"release:changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0",
 		"postversion": "npm run release:changelog && git commit --all --amend --no-edit",
-		"prepublishOnly": "npm run build",
+		"prepublishOnly": "npm run clean && npm run build",
 		"hooks:commit-msg": "commitlint -e",
 		"hooks:pre-commit": "npm-run-all --sequential format:staged lint:staged"
 	},

@@ -28,12 +28,12 @@ export default {
 		},
 		{
 			name: "ttlit",
-			file: "dist/builder-es.js",
+			file: "dist/builder-esm.js",
 			format: "es"
 		},
 		{
 			name: "ttlit",
-			file: "dist/builder-es-min.js",
+			file: "dist/builder-esm-min.js",
 			format: "es",
 			plugins: [terser()]
 		},
