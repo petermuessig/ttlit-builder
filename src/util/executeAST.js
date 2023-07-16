@@ -1,4 +1,4 @@
-import { OPERATORS, UNARY_OPERATORS } from "./operators";
+import { OPERATORS, UNARY_OPERATORS } from "./operators.js";
 
 // executes the AST code recursively
 // eslint-disable-next-line jsdoc/require-jsdoc
@@ -30,7 +30,7 @@ export default function executeAST(ast, ctx, ctxGlobal) {
 		retval = UNARY_OPERATORS[ast.operator](arg);
 	} else if (ast.type === "Identifier") {
 		// Identifier can also be resolved from global context as fallback
-		retval = ctx[ast.name] || ctxGlobal[ast.name];
+		retval = ctx?.[ast.name] || ctxGlobal?.[ast.name];
 	} else if (ast.type === "Literal") {
 		retval = ast.value;
 	} else if (ast.type === "ConditionalExpression") {
@@ -51,11 +51,8 @@ export default function executeAST(ast, ctx, ctxGlobal) {
 	} else if (ast.type === "TaggedTemplateExpression") {
 		const tFn = executeAST(ast.tag, ctxGlobal); // needs to be looked up in global context
 		const qs = ast.quasi.quasis.map((q) => executeAST(q, ctx, ctxGlobal));
+		qs.raw = [...qs]; // the quasis array requires a raw array as a copy
 		const exps = ast.quasi.expressions.map((exp) => executeAST(exp, ctx, ctxGlobal));
-		if (ast.tag.name === "html") {
-			// for lit-html we need to add the raw field
-			qs.raw = [...qs];
-		}
 		retval = tFn(qs, ...exps);
 		/* resolve lit-html manually! => NOT EXPECTED BEHAVIOR!
         const output = tFn(strings, ...values);
