@@ -29,7 +29,8 @@ export default function executeAST(ast, ctx, ctxGlobal) {
 		const arg = executeAST(ast.argument, undefined, ctxGlobal);
 		retval = UNARY_OPERATORS[ast.operator](arg);
 	} else if (ast.type === "Identifier") {
-		retval = ctx[ast.name];
+		// Identifier can also be resolved from global context as fallback
+		retval = ctx[ast.name] || ctxGlobal[ast.name];
 	} else if (ast.type === "Literal") {
 		retval = ast.value;
 	} else if (ast.type === "ConditionalExpression") {
@@ -63,7 +64,11 @@ export default function executeAST(ast, ctx, ctxGlobal) {
         });
         */
 	} else if (ast.type === "ArrowFunctionExpression") {
-		const params = ast.params.map((param) => param.name);
+		// NOT SUPPORTED>: "() => { ... }" --> detected as ObjectExpression
+		if (ast.body.type === "ObjectExpression") {
+			throw Error("Only ArrowFunctionExpressions are supported! Function bodies are not allowed!");
+		}
+		const params = ast.params?.map((param) => param.name) || [];
 		// CSP compliant way to execute Arrow Function Expressions
 		retval = (function (params, body) {
 			return function () {

@@ -68,7 +68,7 @@ export default function buildTemplate(tagFn, stringOrHTMLTemplate) {
 						return value;
 					} catch (ex) {
 						// failed to parse the expression!
-						throw new Error(`Error parsing: ${v}`, ex);
+						throw new Error(`Error parsing: ${v}\n${ex}`);
 					}
 				})
 			);
