@@ -45,7 +45,7 @@ export default function parseTemplateLiteral(s) {
 				break;
 		}
 	}
-	info.strings.push(s.substr(pos, s.length /* - 1 <== seems to be wrong! */));
+	info.strings.push(s.substring(pos, s.length));
 	info.strings.raw = [...info.strings];
 	return info;
 }

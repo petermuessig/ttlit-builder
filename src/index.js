@@ -1,3 +1,5 @@
+/* global HTMLTemplateElement */
+
 // Import the necessary helpers
 import parseTemplateLiteral from "./util/parseTemplateLiteral";
 import executeAST from "./util/executeAST";
@@ -46,24 +48,32 @@ jsep.plugins.register(
 /**
  * Injects the template string into the given tag function.
  * @param {Function} tagFn the template tag function (e.g. String.raw or html)
- * @param {string} string the template string
+ * @param {string|HTMLTemplateElement} stringOrHTMLTemplate the template string or a reference to an HTMLTemplateElement
  * @returns {any} the output of the template tag function using the given template string
  */
-export default function buildTemplate(tagFn, string) {
-	const info = parseTemplateLiteral(string);
-	return (ctx) => {
-		return tagFn(
-			info.strings,
-			...info.values.map((v) => {
-				try {
-					const ast = jsep(v);
-					const value = executeAST(ast, ctx);
-					return value;
-				} catch (ex) {
-					// failed to parse the expression!
-					throw new Error(`Error parsing: ${v}`, ex);
-				}
-			})
-		);
-	};
+export default function buildTemplate(tagFn, stringOrHTMLTemplate) {
+	let string = stringOrHTMLTemplate;
+	if (string instanceof HTMLTemplateElement) {
+		string = string.innerHTML.replaceAll("&gt;", ">").replaceAll("&lt;", "<").trim();
+	}
+	if (typeof string === "string") {
+		const info = parseTemplateLiteral(string);
+		return (ctx) => {
+			return tagFn(
+				info.strings,
+				...info.values.map((v) => {
+					try {
+						const ast = jsep(v);
+						const value = executeAST(ast, ctx);
+						return value;
+					} catch (ex) {
+						// failed to parse the expression!
+						throw new Error(`Error parsing: ${v}`, ex);
+					}
+				})
+			);
+		};
+	} else {
+		throw new Error(`The type of the parameter stringOrHTMLTemplate must be either string or HTMLTemplateElement!`);
+	}
 }
