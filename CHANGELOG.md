@@ -1,8 +1,9 @@
-## [0.0.6](https://github.com/petermuessig/ttlit-builder/compare/8327d156511d63360f9f1f9047bb2ba16934de89...v0.0.6) (2023-07-17)
+## [0.0.7](https://github.com/petermuessig/ttlit-builder/compare/8327d156511d63360f9f1f9047bb2ba16934de89...v0.0.7) (2023-07-20)
 
 ### Bug Fixes
 
 - last char of string mustn't be removed ([6563a1b](https://github.com/petermuessig/ttlit-builder/commit/6563a1b1ae1d49c69f1bea70f502bdf616bcacfa))
+- remove workaround for template expressions ([a660873](https://github.com/petermuessig/ttlit-builder/commit/a660873aacc1efd0f3a7ba3093a295cc471ed60b))
 
 ### Features
 
