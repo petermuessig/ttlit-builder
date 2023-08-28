@@ -1,7 +1,8 @@
-## [0.0.7](https://github.com/petermuessig/ttlit-builder/compare/8327d156511d63360f9f1f9047bb2ba16934de89...v0.0.7) (2023-07-20)
+## [0.0.8](https://github.com/petermuessig/ttlit-builder/compare/8327d156511d63360f9f1f9047bb2ba16934de89...v0.0.8) (2023-08-28)
 
 ### Bug Fixes
 
+- add support for AssignmentExpressions ([07c8e08](https://github.com/petermuessig/ttlit-builder/commit/07c8e0882bbea31ec91f4a1a17187fe893cc61fb)), closes [#1](https://github.com/petermuessig/ttlit-builder/issues/1)
 - last char of string mustn't be removed ([6563a1b](https://github.com/petermuessig/ttlit-builder/commit/6563a1b1ae1d49c69f1bea70f502bdf616bcacfa))
 - remove workaround for template expressions ([a660873](https://github.com/petermuessig/ttlit-builder/commit/a660873aacc1efd0f3a7ba3093a295cc471ed60b))
 
