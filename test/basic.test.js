@@ -33,3 +33,10 @@ test("ArrowFunctionExpression", (t) => {
 	const ttFnGlobal = ttlit(String.raw, "Hello ${(() => name)()}");
 	t.is(ttFnGlobal({ name: "Local" }, { name: "Global" }), "Hello Global");
 });
+
+test("AssignmentExpression", (t) => {
+	const ttFnLocal = ttlit(String.raw, "${(user.name = newUser.name)}");
+	const context = { user: { name: "User" }, newUser: { name: "New" } };
+	t.is(ttFnLocal(context), "undefined");
+	t.is(context.user.name, context.newUser.name);
+});

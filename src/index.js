@@ -32,7 +32,10 @@ export default function buildTemplateFunction(tagFn, stringOrHTMLTemplate) {
 				...info.values.map((v) => {
 					try {
 						const ast = parseExpression(v);
-						const value = executeAST(ast, context, globalContext);
+						const value = executeAST(ast, {
+							context,
+							globalContext
+						});
 						return value;
 					} catch (ex) {
 						// failed to parse the expression!
