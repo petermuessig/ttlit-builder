@@ -1,0 +1,40 @@
+name: Publish to NPM
+
+on:
+  push:
+    tags:
+      - "v*" # Push events to matching v*, i.e. v1.0, v20.15.10
+  workflow_dispatch: # Manual trigger
+
+env:
+  HUSKY_SKIP: true
+
+permissions:
+  contents: read
+  id-token: write # REQUIRED for OIDC flow
+
+jobs:
+  publish-npm:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          registry-url: https://registry.npmjs.org/
+      - run: npm ci
+      - run: npm test
+      - name: Detect token usage (optional safety)
+        run: |
+          if npm whoami 2>/dev/null; then
+            echo "::warning::Token-based auth active (expected only for first publish)"
+          else
+            echo "OIDC auth active"
+          fi
+      - name: Configure NPM bootstrap token (non OIDC flow)
+        env:
+          NPM_BOOTSTRAP_TOKEN: ${{ secrets.NPM_BOOTSTRAP_TOKEN }}
+        if: ${{ env.NPM_BOOTSTRAP_TOKEN != '' }}
+        run: |
+          echo "//registry.npmjs.org/:_authToken=${NPM_BOOTSTRAP_TOKEN}" >> ~/.npmrc
+      - run: npm publish --access public

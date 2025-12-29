@@ -1,5 +1,3 @@
-/* global HTMLTemplateElement */
-
 // Import the necessary helpers
 import parseTemplateLiteral from "./util/parseTemplateLiteral.js";
 import parseExpression from "./util/parseExpression.js";
